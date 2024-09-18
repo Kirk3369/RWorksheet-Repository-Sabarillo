@@ -1,0 +1,180 @@
+---
+title: "RWorksheet_Sabarillo#1"
+author: "Sabarillo, Kirk Axl Dend"
+date: "2024-09-16"
+output: pdf_document
+---
+1.
+```{r}
+age <- c(34, 28, 22, 36, 27, 18, 52, 39, 42, 29,
+35, 31, 27, 22, 37, 34, 19, 20, 57, 49, 50, 37, 46, 25, 17, 37, 42, 53, 41,
+51, 35, 24, 33, 41)
+
+age 
+
+length(age)
+
+```
+2.
+```{r}
+reciprocal_age <- 1/ age
+
+reciprocal_age
+
+```
+3.This code creates a new vector that's an extended version of the original age vector,
+with a 0 inserted in the middle.
+```{r}
+new_age <- c(age, 0, age)
+
+new_age
+
+```
+4.
+```{r}
+sort_age <- sort(age)
+
+sort_age
+
+```
+5.
+```{r}
+min_age <- min(age)
+
+max_age <- max(age)
+
+min_age
+
+max_age
+
+```
+6.
+```{r}
+data <- c(2.4, 2.8, 2.1, 2.5, 2.4, 2.2, 2.5, 2.3, 2.5, 2.3, 2.4, 2.7)
+
+length(data)
+
+data
+```
+7.
+```{r}
+doubled_data <- data * 2
+
+doubled_data
+
+```
+As we can see here the data is multiplied by 2
+8.1
+```{r}
+seq_1_to_100 <- 1:100
+
+```
+8.2
+```{r}
+seq_20_to_60 <- 20:60
+
+```
+8.3
+```{r}
+mean_20_to_60 <- mean(seq_20_to_60)
+
+```
+8.4
+```{r}
+sum_51_to_91 <- sum(51:91)
+
+```
+8.5
+```{r}
+seq_1_to_1000 <- 1:1000
+
+```
+a.
+```{r}
+numdatapoints <- length(seq_1_to_100) + length(seq_20_to_60) + 1 + 1
+
+numdatapoints
+
+```
+b.
+```{r}
+seq_1_to_100; seq_20_to_60; mean_20_to_60; sum_51_to_91
+
+```
+c.
+```{r}
+subset_data <- seq_1_to_1000[seq_1_to_1000 <= 10]
+
+max_value <- max(subset_data)
+
+max_value
+
+
+```
+9.
+```{r}
+not_divisible <- Filter(function(i) { all(i %% c(3, 5, 7) != 0) }, seq(100))
+
+not_divisible
+
+```
+10.
+```{r}
+seq_backwards <- seq(100, 1, by = -1)
+
+```
+11.
+```{r}
+multiples_3_or_5 <- Filter(function(x) { x %% 3 == 0 || x %% 5 == 0 }, seq(1, 24))
+
+sum_multiples <- sum(multiples_3_or_5)
+
+```
+a.
+```{r}
+num_data_points_10_11 <- length(seq_backwards) + length(multiples_3_or_5)
+
+```
+b.
+```{r}
+seq_backwards; multiples_3_or_5; sum_multiples; num_data_points_10_11
+
+```
+12. The output would result into an error because
+the variable x is used before it was assigned a value
+```{r}
+
+```
+13.
+```{r}
+score <- c(72, 86, 92, 63, 88, 89, 91, 92, 75, 75, 77)
+
+score[2]
+
+score[3]
+
+```
+14.
+```{r}
+a <- c(1, 2, NA, 4, NA, 6, 7)
+```
+a.
+```{r}
+print(a, na.print = "-999")
+
+```
+b. The output displays the vector 'a' with NA values replaced by "-999"
+
+15.
+```{r}
+name <- readline(prompt = "Input your name: ")
+
+age <- readline(prompt = "Input your age: ")
+
+print(paste("My name is",name, "and I am",age ,"years old."))
+
+print(R.version.string)
+```
+The output displays the personalized message based on the user's input, 
+followed by the current R version string.
+
