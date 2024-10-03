@@ -1,0 +1,131 @@
+---
+title: "RWorksheet_Sabarillo#3a"
+author: "Sabarillo, Kirk Axl Dend"
+date: "2024-09-30"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+1.a
+```{r}
+LETTERS[1:11]
+
+```
+1.b
+```{r}
+LETTERS[seq(1,26,2)]
+
+```
+1.c
+```{r}
+LETTERS[c(1,5,9,15,21)]
+
+```
+1.d.
+```{r}
+tail(letters, 5)
+
+```
+1.e
+```{r}
+letters[15:24]
+
+```
+2.a
+```{r}
+city <- c("Tuguegarao City", "Manila", "Iloilo City", "Tacloban", "Samal Island", "Davao City")
+city
+```
+2.b
+```{r}
+temp <- c(42, 39, 34, 34, 30, 27 )
+temp
+```
+2.c - The vectors were combined to make a table.
+```{r}
+df <- data.frame(city, temp)
+df
+```
+2.d - The vectors city was changed into City and temp into Temperature.
+```{r}
+names(df) <- c("City", "Temperature")
+df
+```
+2.e - It displays the structure of the data frame.
+```{r}
+str(df)
+```
+2.f -  Iloilo City:34 & Tacloban:34
+```{r}
+df[3:4, ]
+```
+2.g
+```{r}
+highest_temp_city <- df[which.max(df$Temperature), "City"]
+lowest_temp_city <- df[which.min(df$Temperature), "City"]
+
+print(paste("City with highest temperature:", highest_temp_city))
+print(paste("City with lowest temperature:", lowest_temp_city))
+```
+
+#MATRIX
+2.a - Creates a 3x4 matrix with the specified values.
+```{r}
+mat <- matrix(c(1:8, 11:14), nrow = 3, ncol = 4)
+mat
+
+#2.b -Multiplies the matrix by 2.
+
+mult_mat <- mat * 2
+mult_mat
+
+#2.c - Extracts the second row.
+
+row2 <- mat[2,]
+row2
+
+#2.d - Extracts a sub-matrix with rows 1 and 2, and columns 3 and 4.
+
+subset_matrix <- mat[1:2, 3:4]
+subset_matrix
+
+#2.e - Extracts a sub-matrix with row 3 and columns 2 and 3.
+
+subset_matrix_2 <- mat[3, 2:3]
+subset_matrix_2
+
+#2.f - Extracts the fourth column.
+
+column_4 <- mat[, 4]
+column_4
+
+#2.g - Assigns names to the rows and columns of the multiplied matrix.
+
+rownames(mult_mat) <- c("isa", "dalawa", "tatlo")
+colnames(mult_mat) <- c("uno", "dos", "tres", "quatro")
+mult_mat
+
+#2.h -  Reshapes the original matrix to have 2 columns and 6 rows.
+
+reshaped_matrix <- matrix(mat, nrow = 6, ncol = 2)
+reshaped_matrix
+```
+
+#ARRAY
+3.a
+```{r}
+arnum <- array(rep(c(1, 2, 3, 6, 7, 8, 9, 0, 3, 4, 5, 1), 2), dim = c(2, 4, 3))
+arnum
+
+#3.b 
+
+dim(arnum)
+
+#3.c
+
+dimnames(arnum) <- list(letters[1:2], LETTERS[1:4], c("1st-Dimensional Array", "2nd-Dimensional Array", "3rd-Dimensional Array"))
+arnum
+```
+
