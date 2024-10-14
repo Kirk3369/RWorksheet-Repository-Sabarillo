@@ -1,0 +1,87 @@
+---
+title: "RWorksheet_Sabarillo#4a"
+author: "Sabarillo, Kirk Axl Dend"
+date: "2024-10-14"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#1.
+household_df <- read.csv("/cloud/project/worksheet#4/Household Data.csv")
+household_df
+```
+1.a - The data has 28 objects with 3 variables:Shoe size, Height and Gender
+```{r}
+#1.b
+male_subset <- subset(household_df, Gender == "M" & Shoe.size&Height)
+male_subset
+```
+
+```{r}
+#1.b
+female_subset <- subset(household_df, Gender == "F" & Shoe.size&Height)
+female_subset
+```
+
+```{r}
+#1.c
+mean1 <- mean(household_df$Shoe.size)
+mean1
+mean2 <- mean(household_df$Height)
+mean2
+```
+
+1.d - Looking at the data, it's clear that the relationship between height and shoe size differs between males and females.  For males, there's a more predictable pattern where shoe size increases as height increases.  This isn't as consistent for females, where shoe size seems to vary more independently of height.
+```{r}
+#2.
+month_vector <- c("March", "April" ,"January" ,"November" ,"January", "September","October","September","November","August","January","November","November","February","May","August","July","December","August","August","September","November","February","April")
+
+factor_months <- factor(month_vector)
+factor_months
+
+```
+
+```{r}
+#3.
+month_summary <- summary(month_vector)
+month_summary
+factor_month_summary <- summary(factor_months)
+factor_month_summary
+```
+
+```{r}
+#4.
+direction_vector <- c(c("East", "West", "North"), c(1,4,3))
+direction_vector
+direction_matrix <- matrix(direction_vector,nrow=3,ncol=2)
+direction_matrix
+```
+
+
+```{r}
+#4.
+colnames(direction_matrix) <- c("Direction", "Frequency")
+direction_matrix
+```
+
+```{r}
+#4.
+ordered_direction_factor <- factor(direction_matrix,levels = c("East","West","North"))
+print(ordered_direction_factor)
+```
+
+```{r}
+#5.a
+setwd("/cloud/project/worksheet#4")
+strat_df <- read.table("import_march.csv", header= TRUE, sep = ",")
+strat_df
+```
+
+```{r}
+#5b - Because the numbers 1, 2, and 3 weren't part of the expected options in that category, R marked them as missing data (NA).
+strat_df
+```
