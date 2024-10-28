@@ -1,0 +1,204 @@
+---
+title: "RWorksheet_Sabarillo#4b"
+author: "Sabarillo, Kirk Axl Dend"
+date: "2024-10-28"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+1.
+```{r}
+vectorA <- c(1, 2, 3, 4, 5)
+
+matrix_5x5 <- matrix(0, nrow = 5, ncol = 5)
+for (i in 1:5) {
+  for (j in 1:5) {
+    matrix_5x5[i, j] <- abs(i - j)  
+  }
+}
+
+print(matrix_5x5)
+```
+2.
+```{r}
+
+for (i in 1:5) {
+  cat(rep("*", 1 * i - 0), "\n") 
+}
+```
+3.
+```{r}
+user_input <- 33
+num2 <- 0
+repeat {
+  sum <- user_input + num2
+  if (sum > 500) {
+    break 
+  }
+  cat(sum, " ")
+  user_input <- num2
+  num2 <- sum
+}
+cat("\n")
+```
+4.
+```{r}
+#4.a
+shoe_data <- read.csv("shoe_data.csv")
+
+
+head(shoe_data)
+
+#4.b
+males <- subset(shoe_data, Gender == "M")
+females <- subset(shoe_data, Gender == "F")
+
+num_males <- nrow(males)
+num_females <- nrow(females)
+
+cat("Number of males:", num_males, "\n")
+cat("Number of females:", num_females, "\n")
+
+#4.c
+gender_counts <- table(shoe_data$Gender)
+
+barplot(gender_counts, 
+        main = "Number of Males and Females", 
+        xlab = "Gender", 
+        ylab = "Count", 
+        col = c("blue", "pink"),
+        legend = names(gender_counts))
+```
+5.
+```{r}
+expenses <- c(60, 10, 5, 25)
+labels <- c("Food", "Electricity", "Savings", "Miscellaneous")
+
+percentages <- round(expenses / sum(expenses) * 100, 1)
+
+pie(expenses, 
+    labels = paste(labels, percentages, "%"), main = "Monthly Expenses of Dela Cruz Family", 
+    col = c("gold", "red", "green", "blue")
+)
+```
+6.
+```{r}
+data(iris)
+
+#6a.
+str(iris)
+# Output description: The iris dataset is a data frame with 150 observations and 5 variables.
+# The variables are:
+# - Sepal.Length: numeric, representing the sepal length in centimeters
+# - Sepal.Width: numeric, representing the sepal width in centimeters
+# - Petal.Length: numeric, representing the petal length in centimeters
+# - Petal.Width: numeric, representing the petal width in centimeters
+# - Species: Factor with 3 levels "setosa", "versicolor", and "virginica"
+
+#6b.
+mean_measurements <- c(
+  mean(iris$Sepal.Length),
+  mean(iris$Sepal.Width),
+  mean(iris$Petal.Length),
+  mean(iris$Petal.Width)
+)
+names(mean_measurements) <- c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width")
+print(mean_measurements)
+
+#6c.
+species_counts <- table(iris$Species)
+pie(species_counts,
+    main = "Iris Species Distribution",
+    col = c("red", "green", "blue"),
+    labels = paste(names(species_counts), "\n", species_counts, " (", round(species_counts / sum(species_counts) * 100, 1), "%)")
+)
+legend("topright", legend = names(species_counts), fill = c("red", "green", "blue"))
+
+#6d.
+setosa <- subset(iris, Species == "setosa")
+versicolor <- subset(iris, Species == "versicolor")
+virginica <- subset(iris, Species == "virginica")
+tail(setosa)
+tail(versicolor)
+tail(virginica)
+
+#6e.
+plot(iris$Sepal.Length, iris$Sepal.Width,
+     main = "Iris Dataset",
+     sub = "Sepal width and length",
+     xlab = "Sepal Length (cm)",
+     ylab = "Sepal Width (cm)",
+     pch = as.numeric(iris$Species), col = as.numeric(iris$Species)  
+)
+legend("topright", legend = levels(iris$Species), pch = 1:3, col = 1:3)
+
+#6f. -The scatterplot shows a relationship between sepal length and width, with
+# different species clustering in different areas of the plot. Setosa tends to
+# have smaller sepal length and larger sepal width, while virginica has larger
+# sepal length and smaller sepal width. There is some overlap between
+# versicolor and the other two species.
+```
+
+```{r}
+library(readxl)
+
+alexa_data <- read_excel("alexa_file.xlsx")
+
+#7a.
+unique(alexa_data$variation)
+alexa_data$variation <- gsub("Black  Dot", "Black Dot", alexa_data$variation)
+alexa_data$variation <- gsub("Black  Plus", "Black Plus", alexa_data$variation)
+alexa_data$variation <- gsub("Black  Show", "Black Show", alexa_data$variation)
+alexa_data$variation <- gsub("Black  Spot", "Black Spot", alexa_data$variation)
+
+alexa_data$variation <- gsub("White  Dot", "White Dot", alexa_data$variation)
+alexa_data$variation <- gsub("White  Plus", "White Plus", alexa_data$variation)
+alexa_data$variation <- gsub("White  Show", "White Show", alexa_data$variation)
+alexa_data$variation <- gsub("White  Spot", "White Spot", alexa_data$variation)
+unique(alexa_data$variation)
+
+head(alexa_data)
+
+#7b. 
+library(dplyr)
+variation_counts <- alexa_data %>% count(variation)
+print(variation_counts)
+
+save(variation_counts, file = "variations.RData")
+
+#7c.
+load("variations.RData")
+
+barplot(variation_counts$n,
+        names.arg = variation_counts$variation,
+        main = "Alexa Variations",
+        xlab = "Variation",
+        ylab = "Count",
+        col = rainbow(nrow(variation_counts))
+)
+
+#7d.
+black_variants <- variation_counts[grepl("Black", variation_counts$variation), ]
+white_variants <- variation_counts[grepl("White", variation_counts$variation), ]
+
+par(mfrow = c(1, 2))
+
+barplot(black_variants$n,
+        names.arg = black_variants$variation,
+        main = "Black Variants",
+        xlab = "Variation",
+        ylab = "Count",
+        col = rainbow(nrow(black_variants))
+)
+
+barplot(white_variants$n,
+        names.arg = white_variants$variation,
+        main = "White Variants",
+        xlab = "Variation",
+        ylab = "Count",
+        col = rainbow(nrow(white_variants))
+)
+```
+
