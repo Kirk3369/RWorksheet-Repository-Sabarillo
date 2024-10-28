@@ -85,3 +85,83 @@ strat_df
 #5b - Because the numbers 1, 2, and 3 weren't part of the expected options in that category, R marked them as missing data (NA).
 strat_df
 ```
+
+```{r}
+#6.
+  user_input <- readline(prompt = "Enter a number between 1 and 50: ")
+
+  if (user_input < 1 || user_input > 50) {
+    print("The number selected is below/beyond the range of 1 to 50")
+  } else if (user_input == 20) {
+    print("TRUE")
+  } else {
+    print(user_input)
+  }
+```
+
+```{r}
+#7.
+snackPrice<-readline(prompt = "Enter Amount: ")
+if (snackPrice == 50){
+  print("The minimum bill is : 100")
+}else if(snackPrice == 100){
+  print("The minimum bill is : 100")
+}else if(snackPrice == 200){
+  print("The minimum bill is : 200")
+}else if(snackPrice == 500){
+  print("The minimum bill is : 500")
+}else if(snackPrice == 1000){
+  print("The minimum bill is : 1000")
+}else{
+  print("The number is not divisible by 50")
+}
+```
+
+```{r}
+# a. Create a dataframe
+data <- data.frame(
+  Name = c("Annie", "Thea", "Steve", "Hanna"),
+  Grade1 = c(85, 65, 75, 95),
+  Grade2 = c(65, 75, 55, 75),
+  Grade3 = c(85, 90, 80, 100),
+  Grade4 = c(100, 90, 85, 90)
+)
+print(data)
+
+# b. Average score without rowMeans()
+for (i in 1:nrow(data)) {
+  total <- data[i, "Grade1"] + data[i, "Grade2"] + data[i, "Grade3"] + data[i, "Grade4"]
+  average <- total / 4
+  if (average > 90) {
+    cat(data[i, "Name"], "'s average grade this semester is", average, "\n")
+  }
+}
+
+# c. Tests with average score less than 80
+for (j in 2:ncol(data)) {
+  total <- 0
+  for (i in 1:nrow(data)) {
+    total <- total + data[i, j]
+  }
+  average <- total / nrow(data)
+  if (average < 80) {
+    cat("The", j - 1, "th test was difficult.\n")
+  }
+}
+
+# d. Highest score without max()
+for (i in 1:nrow(data)) {
+  highest <- data[i, "Grade1"]
+  if (data[i, "Grade2"] > highest) highest <- data[i, "Grade2"]
+  if (data[i, "Grade3"] > highest) highest <- data[i, "Grade3"]
+  if (data[i, "Grade4"] > highest) highest <- data[i, "Grade4"]
+  if (highest > 90) {
+    cat(data[i, "Name"], "'s highest grade this semester is", highest, "\n")
+  }
+}
+```
+
+
+
+
+
