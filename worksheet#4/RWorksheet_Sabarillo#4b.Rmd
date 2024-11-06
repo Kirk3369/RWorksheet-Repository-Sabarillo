@@ -30,18 +30,24 @@ for (i in 1:5) {
 ```
 3.
 ```{r}
-user_input <- 33
-num2 <- 0
+first <- as.integer(readline(prompt="Enter the first number of the Fibonacci sequence: "))
+second <- as.integer(readline(prompt="Enter the second number of the Fibonacci sequence: "))
+
+#for knitting purposes
+if (is.null(first) || is.na(first)) first <- 1
+if (is.null(second)|| is.na(second)) second <- 1
+
+fibonacci <- c(first, second)
+prev <- first
+current <- second
 repeat {
-  sum <- user_input + num2
-  if (sum > 500) {
-    break 
-  }
-  cat(sum, " ")
-  user_input <- num2
-  num2 <- sum
+  next_val <- prev + current
+  if (next_val > 500) break
+      fibonacci <- c(fibonacci, next_val)
+      prev <- current
+      current <- next_val
 }
-cat("\n")
+print(fibonacci)
 ```
 4.
 ```{r}
