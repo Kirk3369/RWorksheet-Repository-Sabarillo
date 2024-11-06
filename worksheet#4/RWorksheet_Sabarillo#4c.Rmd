@@ -1,0 +1,199 @@
+---
+title: "RWorksheet_Sabarillo#4c.Rmd."
+author: "Sabarillo, Kirk Axl Dend"
+date: "2024-11-04"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+1.
+```{r}
+mpg_data <- read.csv("/cloud/project/worksheet#4/mpg.csv") 
+str(mpg_data)
+```
+
+1.b - Based on the information provided, these are the categorical variables: manufacturer: The name of the car manufacturer. model: The specific model of the car. drv: The type of drive train (f = front-wheel drive, r = rear-wheel drive, 4 = 4wd). class: The type of car (e.g., compact, SUV).
+```{r}
+str(mpg_data)
+cat_Var <- sapply(mpg_data, is.character)
+cat_Var
+```
+
+1.c - These are the continuous variables in the dataset: displ: Engine displacement (in liters). year: Year of manufacture. cyl: Number of cylinders. cty: City miles per gallon. hwy: Highway miles per gallon.
+```{r}
+con_Var <- sapply(mpg_data, is.numeric)
+con_Var
+
+library(dplyr)
+library(ggplot2)
+```
+
+2.a - model on the x-axis manufacturer on the y-axis Since both are categorical variables, the plot will show a grid of points. Each point represents a combination of a specific car model and its manufacturer.
+```{r}
+model_counts <- mpg_data %>%
+  group_by(manufacturer) %>%
+  summarise(unique_models = n_distinct(model)) %>%
+  arrange(desc(unique_models))
+
+print(model_counts)
+
+top_manufacturer <- model_counts$manufacturer[1] 
+print(paste("The manufacturer with the most models is:", top_manufacturer))
+```
+
+2.b This plot might not be very useful in its basic form. Here's why and how to improve it: Overplotting: Many car models might share the same manufacturer, leading to points overlapping and obscuring the actual count. Lack of quantitative information: The plot doesn't tell us how many cars of each model a manufacturer produces.Here are some ways to make it more informative: geom_jitter(): Instead of geom_point(), use geom_jitter() to add some random noise to the point positions, reducing overplotting. geom_count(): This geom will vary the size of the points based on how many times that model-manufacturer combination occurs. Summarize and plot counts: Create a new data frame that counts the occurrences of each model-manufacturer pair and then use geom_col() or geom_bar() to visualize the counts.
+```{r}
+model_counts$manufacturer <- as.factor(model_counts$manufacturer)
+
+plot(model_counts$manufacturer, model_counts$unique_models, 
+     type = "h", 
+     xlab = "Manufacturer", 
+     ylab = "Number of Unique Models",
+     main = "Unique Models per Manufacturer")
+
+ggplot(model_counts, aes(x = manufacturer, y = unique_models)) +
+  geom_col() +  
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  
+  labs(x = "Manufacturer", y = "Number of Unique Models", 
+       title = "Unique Models per Manufacturer")
+```
+3.
+```{r}
+top_models <- mpg_data %>% 
+  count(model) %>% 
+  top_n(20) %>% 
+  pull(model)
+
+top_model_data <- mpg_data %>% 
+  filter(model %in% top_models)
+
+ggplot(top_model_data, aes(x = model, y = year)) +
+  geom_point() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(x = "Model", y = "Year", title = "Top 20 Models and Their Years")
+```
+4.
+```{r}
+model_counts <- mpg_data %>%
+  group_by(model) %>%
+  summarise(count = n()) %>%
+  arrange(desc(count))
+
+print(model_counts)
+```
+4.a
+```{r}
+ggplot(model_counts[1:20, ], aes(x = model, y = count, fill = model)) + 
+  geom_col() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.position = "none") +  
+  labs(x = "Model", y = "Count", title = "Top 20 Car Models by Count") +
+  scale_fill_viridis_d()
+```
+4.b
+```{r}
+ggplot(model_counts[1:20, ], aes(x = model, y = count, fill = model)) + 
+  geom_col() +
+  coord_flip() + 
+  theme(legend.position = "none") +  
+  labs(x = "Model", y = "Count", title = "Top 20 Car Models by Count") +
+  scale_fill_viridis_d()
+```
+5.a
+```{r}
+ggplot(mpg_data, aes(x = cyl, y = displ, color = displ)) +
+  geom_point() +
+  labs(title = "Relationship between No. of Cylinders and Engine Displacement",
+       x = "Number of Cylinders (cyl)",
+       y = "Engine Displacement (displ)",
+       color = "Engine Displacement") + 
+  scale_color_gradient(low = "blue", high = "red")
+```
+6.a
+```{r}
+traffic <- read.csv("/cloud/project/worksheet#4/traffic.csv")
+str(traffic)
+
+ggplot(mpg_data, aes(x = displ, y = hwy, color = cty)) + 
+  geom_point() +
+  labs(title = "Relationship between Engine Displacement, Highway MPG, and City MPG",
+       x = "Engine Displacement (displ)",
+       y = "Highway Miles per Gallon (hwy)",
+       color = "City MPG (cty)") +
+  scale_color_gradient(low = "blue", high = "red")
+```
+6.b
+```{r}
+junction <- subset(traffic, select = Junction)
+head(junction)
+tail(junction)
+```
+6.c
+```{r}
+
+library(ggplot2)
+ggplot(traffic, aes(x = DateTime, y = Vehicles, color = Junction)) +
+  geom_line() +
+  labs(title = "Traffic Counts by Junction", x = "Date & Time", y = "Vehicles")
+```
+7.
+```{r}
+library("readxl")
+alexa <- read_xlsx("/cloud/project/worksheet#4/alexa_file.xlsx")
+```
+7.a
+```{r}
+nrow(alexa)
+ncol(alexa)
+```
+7.b
+```{r}
+library(dplyr)
+variationTotal <- alexa %>%
+  group_by(variation) %>%
+  summarize(total = n())
+print(variationTotal)
+```
+7.c
+```{r}
+ggplot(variationTotal, aes(x = variation, y = total, fill = variation)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Total Variations", x = "Variation", y = "Total") +
+  theme_minimal()
+```
+7.d
+```{r}
+
+library(dplyr)
+no_of_verified_reviews <- alexa %>%
+  group_by(date) %>%
+  summarize(count = n()) %>%
+  arrange(date)
+```
+
+```{r}
+library(ggplot2)
+ggplot(no_of_verified_reviews, aes(x = date, y = count)) +
+  geom_line(color = "red") +
+  labs(title = "Verified Reviews Over Time", x = "Date", y = "Verified Reviews") +
+  theme_minimal()
+```
+7.e
+```{r}
+variationRating <- alexa %>%
+  group_by(variation) %>%
+  summarize(avg_rating = mean(rating, na.rm = TRUE)) %>%
+  arrange(desc(avg_rating))
+print(variationRating)
+```
+
+```{r}
+ggplot(variationRating, aes(x = reorder(variation, avg_rating), y = avg_rating, fill = variation)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Average Ratings by Variation", x = "Variation", y = "Average Rating") +
+  coord_flip()
+```
+
+
